@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { NotificationDriver } from '@trend-compass/core';
+import { NotificationDriver } from '../../core/src/types';
 
 /**
  * Slack notification driver implementation

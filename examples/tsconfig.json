@@ -1,0 +1,14 @@
+{
+  "extends": "../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "../dist/examples",
+    "rootDir": "."
+  },
+  "include": ["**/*.ts"],
+  "references": [
+    { "path": "../packages/core" },
+    { "path": "../packages/integrations" },
+    { "path": "../packages/scheduler" },
+    { "path": "../packages/cli" }
+  ]
+}

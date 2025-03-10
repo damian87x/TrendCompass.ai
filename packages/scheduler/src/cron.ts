@@ -1,6 +1,6 @@
 import cron from 'node-cron';
-import { TrendCompassConfig, runTrendCompass } from '@trend-compass/core';
-import { createNotificationDriver } from '@trend-compass/integrations';
+import { TrendCompassConfig, runTrendCompass } from '../../core/src';
+import { createNotificationDriver } from '../../integrations/src';
 
 /**
  * Schedules the TrendCompass process to run according to a cron expression
