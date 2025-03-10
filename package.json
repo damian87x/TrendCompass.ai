@@ -1,0 +1,38 @@
+{
+  "name": "trend-compass",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "clean": "nx run-many --target=clean --all",
+    "build": "nx run-many --target=build --all",
+    "test": "nx run-many --target=test --all",
+    "lint": "nx run-many --target=lint --all",
+    "format": "prettier --write \"packages/**/*.{ts,tsx,js,jsx,json}\"",
+    "cli": "nx run cli:serve",
+    "dev": "nx run cli:dev",
+    "prepare": "husky install"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^20.10.2",
+    "eslint": "^8.55.0",
+    "@typescript-eslint/eslint-plugin": "^6.14.0",
+    "@typescript-eslint/parser": "^6.14.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.0.1",
+    "husky": "^8.0.3",
+    "lint-staged": "^15.2.0",
+    "nx": "20.5.0",
+    "prettier": "^3.1.1",
+    "rimraf": "^5.0.5",
+    "typescript": "^5.3.2"
+  },
+  "dependencies": {},
+  "description": "**Stay on top of trending topics on social media — all in one place.**",
+  "keywords": [],
+  "nx": {}
+}

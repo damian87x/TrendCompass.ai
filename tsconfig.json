@@ -1,0 +1,20 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@trend-compass/core": ["packages/core/src/index.ts"],
+      "@trend-compass/integrations": ["packages/integrations/src/index.ts"],
+      "@trend-compass/scheduler": ["packages/scheduler/src/index.ts"],
+      "@trend-compass/cli": ["packages/cli/src/index.ts"]
+    }
+  },
+  "files": [],
+  "include": [],
+  "references": [
+    { "path": "./packages/core" },
+    { "path": "./packages/integrations" },
+    { "path": "./packages/scheduler" },
+    { "path": "./packages/cli" }
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "application": {
+    "name": "TrendCompass",
+    "version": "1.0.0"
+  },
+  "notifications": {
+    "defaultDriver": "discord",
+    "drivers": {
+      "discord": {
+        "webhookUrl": ""
+      },
+      "slack": {
+        "webhookUrl": ""
+      }
+    }
+  },
+  "sources": {
+    "websites": [
+      { "identifier": "https://www.firecrawl.dev/blog", "category": "technology" },
+      { "identifier": "https://openai.com/news/", "category": "ai" },
+      { "identifier": "https://www.anthropic.com/news", "category": "ai" },
+      { "identifier": "https://news.ycombinator.com/", "category": "technology" },
+      { "identifier": "https://www.reuters.com/technology/artificial-intelligence/", "category": "news" },
+      { "identifier": "https://simonwillison.net/", "category": "technology" },
+      { "identifier": "https://buttondown.com/ainews/archive/", "category": "ai" }
+    ],
+    "twitter": {
+      "enabled": false,
+      "handles": []
+    }
+  },
+  "generation": {
+    "model": "gpt-4o",
+    "temperature": 0.7,
+    "maxTokens": 500
+  },
+  "scheduling": {
+    "cronExpression": "0 */12 * * *",
+    "timezone": "UTC"
+  }
+}

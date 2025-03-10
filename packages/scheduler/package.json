@@ -1,0 +1,20 @@
+{
+  "name": "@trend-compass/scheduler",
+  "version": "1.0.0",
+  "description": "Scheduler implementation for TrendCompass",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest"
+  },
+  "dependencies": {
+    "dotenv": "^14.3.2",
+    "node-cron": "^3.0.3"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.2",
+    "@types/node-cron": "^3.0.11",
+    "typescript": "^5.3.2"
+  }
+}

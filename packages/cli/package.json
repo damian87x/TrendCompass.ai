@@ -1,0 +1,23 @@
+{
+  "name": "@trend-compass/cli",
+  "version": "1.0.0",
+  "description": "CLI for TrendCompass",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "trend-compass": "dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "jest"
+  },
+  "dependencies": {
+    "@trend-compass/core": "1.0.0",
+    "@trend-compass/scheduler": "1.0.0",
+    "dotenv": "^14.3.2"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.2",
+    "typescript": "^5.3.2"
+  }
+}

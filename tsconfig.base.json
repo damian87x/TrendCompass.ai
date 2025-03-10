@@ -1,0 +1,26 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "rootDir": ".",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "es2015",
+    "module": "commonjs",
+    "lib": ["es2020", "dom"],
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@trend-compass/core": ["packages/core/src/index.ts"],
+      "@trend-compass/integrations": ["packages/integrations/src/index.ts"],
+      "@trend-compass/scheduler": ["packages/scheduler/src/index.ts"],
+      "@trend-compass/cli": ["packages/cli/src/index.ts"]
+    },
+    "preserveSymlinks": true
+  },
+  "exclude": ["node_modules", "tmp"]
+}
