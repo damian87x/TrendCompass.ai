@@ -18,7 +18,9 @@ import {
 import {
   createNotificationDriver,
   SlackDriver,
-  DiscordDriver
+  DiscordDriver,
+  WebhookDriver,
+  GitHubDriver
 } from '../packages/integrations/src';
 
 import { scheduleTrendCompass } from '../packages/scheduler/src/cron';
@@ -115,6 +117,45 @@ async function demonstrateMultipleDrivers() {
     }
   } else {
     console.log('Slack webhook URL not found in environment variables, skipping...');
+  }
+  
+  // Example: Using the generic Webhook driver
+  if (process.env['GENERIC_WEBHOOK_URL']) {
+    const webhookDriver = new WebhookDriver(
+      process.env['GENERIC_WEBHOOK_URL'],
+      // Optional custom headers if needed
+      process.env['WEBHOOK_CUSTOM_HEADERS'] ? JSON.parse(process.env['WEBHOOK_CUSTOM_HEADERS']) : undefined
+    );
+    
+    console.log('Sending to generic webhook...');
+    try {
+      await notify(demoContent, webhookDriver);
+      console.log('Webhook notification sent!');
+    } catch (error) {
+      console.error('Webhook notification failed:', error);
+    }
+  } else {
+    console.log('Generic webhook URL not found in environment variables, skipping...');
+  }
+  
+  // Example: Using the GitHub driver
+  if (process.env['GITHUB_OWNER'] && process.env['GITHUB_REPO'] && process.env['GITHUB_TOKEN']) {
+    const githubDriver = new GitHubDriver(
+      process.env['GITHUB_OWNER'],
+      process.env['GITHUB_REPO'],
+      process.env['GITHUB_TOKEN'],
+      process.env['GITHUB_EVENT_TYPE'] || 'trend-compass-update'
+    );
+    
+    console.log('Sending to GitHub repository dispatch...');
+    try {
+      await notify(demoContent, githubDriver);
+      console.log('GitHub notification sent!');
+    } catch (error) {
+      console.error('GitHub notification failed:', error);
+    }
+  } else {
+    console.log('GitHub configuration not found in environment variables, skipping...');
   }
 }
 

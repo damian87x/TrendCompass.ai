@@ -1,6 +1,7 @@
 import FirecrawlApp from "@mendable/firecrawl-js";
 import { z } from "zod";
 import { Story } from "../types";
+import axios from "axios";
 
 const StorySchema = z.object({
   headline: z.string().describe("Story or post headline"),
@@ -164,6 +165,85 @@ export async function scrapeTwitterSource(
  * @param config Configuration object with API keys
  * @returns Combined array of stories from all sources
  */
+/**
+ * Scrapes GitHub's trending repositories page
+ * @param url GitHub trending URL (e.g., https://github.com/trending)
+ * @returns Array of stories with trending repositories
+ */
+export async function scrapeGitHubTrending(url: string): Promise<Story[]> {
+  const stories: Story[] = [];
+  const currentDate = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
+  
+  try {
+    const response = await axios.get(url);
+    const html = response.data;
+    
+    // Extract repository information from HTML
+    // Looking for repository blocks in the trending page
+    const repoBlocks = html.match(/<article class="Box-row">[\s\S]*?<\/article>/g);
+    
+    if (repoBlocks && repoBlocks.length > 0) {
+      for (const block of repoBlocks) {
+        // Extract repository owner and name
+        const repoMatch = block.match(/href="\/([^\/]+\/[^\/"]+)"/);
+        if (repoMatch) {
+          const repoPath = repoMatch[1];
+          const repoUrl = `https://github.com/${repoPath}`;
+          
+          // Extract description
+          let description = '';
+          const descMatch = block.match(/<p class="col-9 color-fg-muted my-1 pr-4">[\s\S]*?([^>]+)<\/p>/);
+          if (descMatch) {
+            description = descMatch[1].trim();
+          }
+          
+          // Extract language if available
+          let language = '';
+          const langMatch = block.match(/<span itemprop="programmingLanguage">([^<]+)<\/span>/);
+          if (langMatch) {
+            language = langMatch[1].trim();
+          }
+          
+          // Extract stars if available
+          let stars = '';
+          const starsMatch = block.match(/([\d,]+) stars/);
+          if (starsMatch) {
+            stars = starsMatch[1];
+          }
+          
+          // Create story object
+          const headline = `${repoPath} - ${description || 'No description'} ${language ? `[${language}]` : ''} (${stars || '0'} stars)`;
+          
+          stories.push({
+            headline: headline,
+            link: repoUrl,
+            date_posted: currentDate
+          });
+        }
+      }
+    }
+    
+    if (stories.length === 0) {
+      // Fallback: If we couldn't parse the HTML structure, create a simple story with the trending URL
+      stories.push({
+        headline: "GitHub Trending Repositories",
+        link: url,
+        date_posted: currentDate
+      });
+    }
+  } catch (error) {
+    console.error("Error scraping GitHub trending:", error);
+  }
+  
+  return stories;
+}
+
+/**
+ * Main function to scrape multiple sources
+ * @param sources Array of source objects with identifiers
+ * @param config Configuration object with API keys
+ * @returns Combined array of stories from all sources
+ */
 export async function scrapeSources(
   sources: { identifier: string }[],
   firecrawlApiKey?: string,
@@ -176,7 +256,16 @@ export async function scrapeSources(
   for (const sourceObj of sources) {
     const source = sourceObj.identifier;
     
-    if (source.includes("x.com") || source.includes("twitter.com")) {
+    if (source.includes("github.com/trending")) {
+      try {
+        console.log("Scraping GitHub trending...");
+        const githubStories = await scrapeGitHubTrending(source);
+        allStories.push(...githubStories);
+      } catch (error) {
+        console.error("Error scraping GitHub trending:", error);
+      }
+    }
+    else if (source.includes("x.com") || source.includes("twitter.com")) {
       const usernameMatch = source.match(/(?:x|twitter)\.com\/([^\/]+)/);
       if (usernameMatch) {
         const username = usernameMatch[1];
@@ -184,7 +273,6 @@ export async function scrapeSources(
         allStories.push(...twitterStories);
       }
     }
-
     else if (firecrawlApp) {
       const firecrawlStories = await scrapeFirecrawlSource(firecrawlApp, source);
       allStories.push(...firecrawlStories);

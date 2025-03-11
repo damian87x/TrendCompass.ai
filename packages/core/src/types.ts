@@ -9,10 +9,28 @@ export interface TrendCompassConfig {
   firecrawlApiKey?: string;
   openAIApiKey?: string;
   notificationConfig: {
-    driver: 'slack' | 'discord' | 'none';
-    webhookUrl: string;
+    driver: 'slack' | 'discord' | 'webhook' | 'github' | 'none';
+    webhookUrl?: string;
+    customHeaders?: Record<string, string>;
+    githubOwner?: string;
+    githubRepo?: string;
+    githubToken?: string;
+    githubEventType?: string;
   };
-  customSources?: { identifier: string }[];
+  sources?: {
+    websites?: Array<{
+      identifier: string;
+      category: string;
+    }>;
+    twitter?: {
+      enabled: boolean;
+      handles: string[];
+    };
+  };
+  customSources?: Array<{
+    identifier: string;
+    category?: string;
+  }>;
 }
 
 /**

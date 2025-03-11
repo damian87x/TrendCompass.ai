@@ -4,18 +4,29 @@
     "version": "1.0.0"
   },
   "notifications": {
-    "defaultDriver": "discord",
+    "defaultDriver": "webhook",
     "drivers": {
       "discord": {
         "webhookUrl": ""
       },
       "slack": {
         "webhookUrl": ""
+      },
+      "webhook": {
+        "webhookUrl": "https://webhook.site/894822ec-56d5-48c2-8c41-75430d338f18",
+        "customHeaders": {}
+      },
+      "github": {
+        "githubOwner": "",
+        "githubRepo": "",
+        "githubToken": "",
+        "githubEventType": "trend-compass-update"
       }
     }
   },
   "sources": {
     "websites": [
+      { "identifier": "https://github.com/trending", "category": "technology" },
       { "identifier": "https://www.firecrawl.dev/blog", "category": "technology" },
       { "identifier": "https://openai.com/news/", "category": "ai" },
       { "identifier": "https://www.anthropic.com/news", "category": "ai" },
